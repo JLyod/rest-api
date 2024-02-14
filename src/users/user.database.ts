@@ -118,3 +118,19 @@ export const remove = async (id: string): Promise<void> => {
 
   saveUsers();
 };
+
+export const search = async (query : { name? : string, email? : string }) : Promise<UnitUser[]> => {
+  const allUsers : Users = await loadUsers();
+
+  const filteredUsers = Object.values(allUsers).filter(user => {
+      if (query.name && !user.username.toLowerCase().includes(query.name.toLowerCase())) {
+          return false;
+      }
+      if (query.email && !user.email.toLowerCase().includes(query.email.toLowerCase())) {
+          return false;
+      }
+      return true;
+  });
+
+  return filteredUsers;
+}
